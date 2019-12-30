@@ -21,15 +21,23 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "wwwroot", "wwwroot\", "{408
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "62233"
+		SlnRelativePath = "wwwroot\"
 	EndProjectSection
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "farm_bot", "farm_bot\farm_bot.pyproj", "{B9364C6B-ED41-47A8-B4DB-987CDBEF52B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{4083AB52-9703-4316-AAF5-527FA82C9B2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4083AB52-9703-4316-AAF5-527FA82C9B2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4083AB52-9703-4316-AAF5-527FA82C9B2B}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{4083AB52-9703-4316-AAF5-527FA82C9B2B}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{B9364C6B-ED41-47A8-B4DB-987CDBEF52B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9364C6B-ED41-47A8-B4DB-987CDBEF52B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
