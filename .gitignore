@@ -13,3 +13,8 @@
 /farm_bot/env
 /farm_bot/.env
 /farm_bot/__pycache__
+
+/farm_app/env
+/farm_app/__pycache__
+/farm_app/.flaskenv
+/farm_app/app/__pycache__

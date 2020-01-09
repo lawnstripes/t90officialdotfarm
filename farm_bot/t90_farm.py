@@ -14,11 +14,13 @@ class T90_Farm():
         return cnt['Item']['counter_value']
 
     async def update_farm_count(self, new_farms):
-        self.farm_table.update_item(
+        response = self.farm_table.update_item(
             Key={'counter': 'id'},
             UpdateExpression='SET counter_value = counter_value + :farms',
-            ExpressionAttributeValues={':farms': new_farms}
+            ExpressionAttributeValues={':farms': new_farms},
+            ReturnValues="UPDATED_NEW"
         )
+        print(response)
 
     async def begin_update_farm_count(self, new_farms):
         return asyncio.create_task(self.update_farm_count(new_farms))
