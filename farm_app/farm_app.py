@@ -1,10 +1,10 @@
-from app import app
-from app.models import FarmModel
+from app import app, Config
+from app.models import Farm
 
 
 @app.shell_context_processor
 def make_shell_context():
-    return {'FarmModel': FarmModel}
+    return {'FarmModel': Farm, 'Config': Config}
 
 
 if __name__ == "__main__":
