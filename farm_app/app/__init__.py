@@ -13,5 +13,6 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 jwt = JWTManager(app)
 socketio = SocketIO(app)
+application = app
 
 from app import routes, models
