@@ -1,4 +1,4 @@
-from app import app, Config
+from app import app, Config, socketio
 from app.models import Farm
 
 
@@ -8,4 +8,4 @@ def make_shell_context():
 
 
 if __name__ == "__main__":
-    app.run()
+    socketio.run(app)

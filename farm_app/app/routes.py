@@ -2,8 +2,8 @@ from flask import render_template, redirect, request, jsonify
 from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 jwt_refresh_token_required,
                                 get_jwt_identity, jwt_optional)
-
-from app import app, db
+from flask_socketio import emit, send
+from app import app, db, socketio
 from app.models import User, Farm
 
 
@@ -12,7 +12,6 @@ from app.models import User, Farm
 def index():
     farms = Farm.get_farm_cnt()
     return render_template('index.html', farms=farms)
-
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -40,7 +39,7 @@ def login():
 def refresh():
     current_user = get_jwt_identity()
     ret = {
-        'access_token': create_refresh_token(identity=current_user)
+        'access_token': create_access_token(identity=current_user)
     }
     return jsonify(ret), 200
 
@@ -62,4 +61,15 @@ def farms():
         f = Farm(twitch_user=twitch_user, farm_cnt=farms)
         db.session.add(f)
         db.session.commit()
-        return jsonify({'farms': Farm.get_farm_cnt()})
+        farm_cnt = Farm.get_farm_cnt()
+        broadcast_farms(farm_cnt)
+        return jsonify({'farms': farm_cnt})
+
+
+@socketio.on('connect')
+def connect_farms():
+    emit('farms', {'farms': Farm.get_farm_cnt()})
+
+
+def broadcast_farms(farms):
+    socketio.emit('farms', {'farms': farms}, broadcast=True)

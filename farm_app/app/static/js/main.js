@@ -1,9 +1,20 @@
 import { CountUp } from './countUp.js';
 var farms = null;
+var socket = io();
 
 window.onload = function() {
-  getData();
-  setInterval(getData, 5000);
+  socket.on('connect', () => { 
+    this.console.log('connect');
+  });
+  socket.on('farms', (data) => {
+    if (farms) {
+      farms.update(data['farms']);
+    }
+    else {
+      farms = new CountUp('count', data['farms']);
+      farms.start()
+    }
+  });
 }
 
 function getData() {

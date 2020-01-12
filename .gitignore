@@ -20,3 +20,6 @@
 /farm_app/app/__pycache__
 farm_app/migrations/__pycache__/
 farm_app/migrations/versions/__pycache__
+
+.DS_Store
+desktop.ini
