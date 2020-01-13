@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+    web:
+        build: ./farm_app
+        command: gunicorn --worker-class eventlet --bind 0.0.0.0 -w 1 farm_app:app
+        volumes: 
+            - ./farm_app:/usr/src/farm_app
+        ports:
+            - 8000:8000
+        env_file: 
+            - ./.env.dev

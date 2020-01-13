@@ -7,4 +7,8 @@ class Config(object):
         "postgresql://localhost/t90farms"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY") or \
-        "SHHHH-TOP-SECRET"
+        "JWT-TOP-SECRET-CODE"
+    FARM_BOT_USER = os.environ.get("FARM_BOT_USER") or \
+        "FARM_BOT"
+    FARM_BOT_PW = os.environ.get("FARM_BOT_PW") or \
+        "FARM-BOTS-TOP-SECRET-CODE"

@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+    web:
+        build: ./farm_app
+        command: python ./farm_app.py
+        volumes: 
+            - ./farm_app:/usr/src/farm_app
+        ports:
+            - 5000:5000
+        env_file: 
+            - ./.env.dev

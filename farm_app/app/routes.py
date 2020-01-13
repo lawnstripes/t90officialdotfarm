@@ -2,7 +2,7 @@ from flask import render_template, redirect, request, jsonify
 from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 jwt_refresh_token_required,
                                 get_jwt_identity, jwt_optional)
-from flask_socketio import emit, send
+from flask_socketio import emit
 from app import app, db, socketio
 from app.models import User, Farm
 
@@ -12,6 +12,7 @@ from app.models import User, Farm
 def index():
     farms = Farm.get_farm_cnt()
     return render_template('index.html', farms=farms)
+
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -25,13 +26,15 @@ def login():
     username = request.json.get('username', None)
     password = request.json.get('password', None)
 
-    u = User.query.filter_by(username=username).one()
+    u = User.query.filter_by(username=username).one_or_none()
     if u is not None and u.verify_password(password):
         ret = {
             'access_token': create_access_token(identity=u.username),
             'refresh_token': create_refresh_token(identity=u.username)
         }
         return jsonify(ret), 200
+    else:
+        return jsonify({'message': 'invalid user/password'}), 200
 
 
 @app.route('/refresh', methods=['POST'])

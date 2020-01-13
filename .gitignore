@@ -3,6 +3,10 @@
 ################################################################################
 
 /.vs
+__pycache__/
+*.py[cod]
+env/
+.env*
 
 .vscode/*
 !.vscode/settings.json
@@ -10,16 +14,8 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 
-/farm_bot/env
 /farm_bot/.env
-/farm_bot/__pycache__
-
-/farm_app/env
-/farm_app/__pycache__
 /farm_app/.flaskenv
-/farm_app/app/__pycache__
-farm_app/migrations/__pycache__/
-farm_app/migrations/versions/__pycache__
 
 .DS_Store
 desktop.ini
