@@ -11,11 +11,11 @@ RUN apk update \
 
 RUN pip install --upgrade pip
 RUN pip install flake8
-COPY . /user/src/farm_app
+COPY . /usr/src/farm_app
 RUN flake8 
 
 COPY ./requirements.txt .
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/farm_app/wheels -r requirements.txt
+RUN pip wheel --wheel-dir /usr/src/farm_app/wheels -r requirements.txt
 
 
 FROM python:3.7-alpine
@@ -26,14 +26,15 @@ RUN addgroup -S app && adduser -S app -G app
 
 ENV HOME=/home
 ENV APP_HOME=/home/farm_app
-RUN mkdir ${APP_HOME}
 
-RUN chown -R app:app ${APP_HOME}
-WORKDIR ${APP_HOME}
+WORKDIR $APP_HOME
 
 RUN apk update && apk add libpq
-COPY --from=builder /usr/src/app/wheels /wheels
-COPY --from=builder /usr/src/farm_app/requirements.txt . 
-COPY --from=builder /usr/src/farm_app  ${APP_HOME}
+COPY --from=builder /usr/src/farm_app/wheels /wheels
+COPY --from=builder /usr/src/farm_app/requirements.txt .
+RUN pip install --upgrade pip
+RUN pip install /wheels/*
 
+COPY . $APP_HOME
+RUN chown -R app:app $APP_HOME
 USER app

@@ -19,6 +19,7 @@ def page_not_found(e):
     return redirect('/')
 
 
+@app.route('/api/login', methods=['POST'])
 @app.route('/login', methods=['POST'])
 def login():
     if not request.is_json:
@@ -37,6 +38,7 @@ def login():
         return jsonify({'message': 'invalid user/password'}), 200
 
 
+@app.route('/api/refresh', methods=['POST'])
 @app.route('/refresh', methods=['POST'])
 @jwt_refresh_token_required
 def refresh():
@@ -47,6 +49,7 @@ def refresh():
     return jsonify(ret), 200
 
 
+@app.route('/api/farms', methods=['GET', 'POST'])
 @app.route('/farms', methods=['GET', 'POST'])
 @jwt_optional
 def farms():
