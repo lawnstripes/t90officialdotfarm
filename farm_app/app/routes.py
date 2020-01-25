@@ -72,6 +72,12 @@ def farms():
         return jsonify({'farms': farm_cnt})
 
 
+@app.route('/farms/<twitchuser>', methods=['GET'])
+@app.route('/api/farms/<twitchuser>', methods=['GET'])
+def user_farms(twitchuser):
+    pass
+
+
 @socketio.on('connect')
 def connect_farms():
     emit('farms', {'farms': Farm.get_farm_cnt()})
