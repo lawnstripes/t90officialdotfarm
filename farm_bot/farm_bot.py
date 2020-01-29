@@ -20,19 +20,24 @@ class Farm_Bot(commands.Bot):
         self.queue = asyncio.Queue()
         self.farmRe = re.compile(r'\bt90Farm\b')
         self.farms = T90_Farm(session=aiohttp.ClientSession(),
-                              farm_end_point='http://localhost:1337/api')
+                              farm_end_point=os.getenv("FARM_APP_ENDPOINT"),
+                              farm_user=os.getenv("FARM_BOT_USER"),
+                              farm_pass=os.getenv("FARM_BOT_PASSWORD"))
 
-    def authenticate(self):
-        self.farms.authenticate()
+    async def authenticate(self):
+        await self.farms.authenticate()
 
     async def event_ready(self):
         print(f'ready | {self.nick}')
+        await self.authenticate()
 
     async def event_message(self, message):
         farm_cnt = len(self.farmRe.findall(message.content))
-        print(f'text: {message.content} - farms: {farm_cnt}')
+#        print(f'text: {message.content} - farms: {farm_cnt}')
         if farm_cnt > 0:
-            self.queue.put_nowait({'user': message.author, 'farms': farm_cnt})
+            self.queue.put_nowait({
+                'user': message.author.name,
+                'farms': farm_cnt})
         await self.handle_commands(message)
 
     @commands.command(name='farms')
@@ -47,7 +52,6 @@ class Farm_Bot(commands.Bot):
             if item is None:
                 break
 
-            print(f'consumer got {item}')
             await self.farms.update_farm_count(item['user'],
                                                item['farms'])
         print('consumer finished')
@@ -55,7 +59,6 @@ class Farm_Bot(commands.Bot):
 
 async def main():
     bot = Farm_Bot()
-    bot.authenticate()
     await asyncio.gather(bot.start(), bot.consume())
 
 

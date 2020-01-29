@@ -35,7 +35,7 @@ def login():
         }
         return jsonify(ret), 200
     else:
-        return jsonify({'message': 'invalid user/password'}), 200
+        return jsonify({'message': 'invalid user/password'}), 401
 
 
 @app.route('/api/refresh', methods=['POST'])
@@ -43,10 +43,14 @@ def login():
 @jwt_refresh_token_required
 def refresh():
     current_user = get_jwt_identity()
-    ret = {
-        'access_token': create_access_token(identity=current_user)
-    }
-    return jsonify(ret), 200
+    try:
+        ret = {
+            'access_token': create_access_token(identity=current_user)
+        }
+        return jsonify(ret), 200
+    except:
+        return jsonify({'message': 'invalid refresh attempt'}), 401
+
 
 
 @app.route('/api/farms', methods=['GET', 'POST'])
