@@ -52,7 +52,6 @@ def refresh():
         return jsonify({'message': 'invalid refresh attempt'}), 401
 
 
-
 @app.route('/api/farms', methods=['GET', 'POST'])
 @app.route('/farms', methods=['GET', 'POST'])
 @jwt_optional
