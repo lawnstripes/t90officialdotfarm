@@ -29,10 +29,11 @@ class Farm(db.Model):
     @staticmethod
     def get_farm_cnt():
         sum = Farm.query.with_entities(func.sum(Farm.farm_cnt))
-        return sum.scalar()
+        return sum.scalar() or 0
 
     @staticmethod
     def get_user_farm_cnt(twitch_user):
-        sum = Farm.query.filter(Farm.twitch_user == twitch_user)\
-            .with_entities(func.sum(Farm.farm_cnt))
-        return sum.scalar()
+        sum = Farm.query.filter(
+            func.lower(Farm.twitch_user) == func.lower(twitch_user)
+        ).with_entities(func.sum(Farm.farm_cnt))
+        return sum.scalar() or 0

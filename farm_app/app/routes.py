@@ -67,7 +67,7 @@ def farms():
             return jsonify({'message': 'not authenticated'}), 401
         farms = request.json.get('farms', None)
         twitch_user = request.json.get('twitch_user', None)
-        f = Farm(twitch_user=twitch_user, farm_cnt=farms)
+        f = Farm(twitch_user=twitch_user.lower(), farm_cnt=farms)
         db.session.add(f)
         db.session.commit()
         farm_cnt = Farm.get_farm_cnt()
@@ -75,10 +75,13 @@ def farms():
         return jsonify({'farms': farm_cnt})
 
 
-@app.route('/farms/<twitchuser>', methods=['GET'])
-@app.route('/api/farms/<twitchuser>', methods=['GET'])
-def user_farms(twitchuser):
-    pass
+@app.route('/farms/<twitch_user>', methods=['GET'])
+@app.route('/api/farms/<twitch_user>', methods=['GET'])
+def user_farms(twitch_user):
+    return jsonify(
+        {'twitch_user': twitch_user,
+         'farms': Farm.get_user_farm_cnt(twitch_user)}
+    )
 
 
 @socketio.on('connect')
