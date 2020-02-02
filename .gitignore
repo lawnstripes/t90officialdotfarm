@@ -20,3 +20,4 @@ env/
 .DS_Store
 desktop.ini
 Dockerrun.aws.json
+.elasticbeanstalk/
