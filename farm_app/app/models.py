@@ -22,7 +22,8 @@ class User(db.Model):
 class Farm(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     twitch_user = db.Column(db.String(64), index=True)
-    farm_date = db.Column(db.DateTime, default=datetime.utcnow())
+    farm_date = db.Column(db.DateTime(timezone=True),
+                          default=func.now())
     farm_cnt = db.Column(db.Integer)
     __table_args__ = (db.Index('farms_date_cnt_ix', farm_date, farm_cnt),)
 

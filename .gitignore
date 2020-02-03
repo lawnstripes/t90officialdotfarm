@@ -15,9 +15,13 @@ env/
 !.vscode/extensions.json
 
 /farm_bot/.env
+
 /farm_app/.flaskenv
+farm_app/app.db
 
 .DS_Store
 desktop.ini
 Dockerrun.aws.json
 .elasticbeanstalk/
+.ebextensions/
+

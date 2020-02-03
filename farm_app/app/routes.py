@@ -3,6 +3,7 @@ from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 jwt_refresh_token_required,
                                 get_jwt_identity, jwt_optional)
 from flask_socketio import emit
+from datetime import datetime
 from app import app, db, socketio
 from app.models import User, Farm
 
@@ -67,7 +68,9 @@ def farms():
             return jsonify({'message': 'not authenticated'}), 401
         farms = request.json.get('farms', None)
         twitch_user = request.json.get('twitch_user', None)
-        f = Farm(twitch_user=twitch_user.lower(), farm_cnt=farms)
+        f = Farm(twitch_user=twitch_user.lower(),
+                 farm_date=datetime.utcnow(),
+                 farm_cnt=farms)
         db.session.add(f)
         db.session.commit()
         farm_cnt = Farm.get_farm_cnt()
