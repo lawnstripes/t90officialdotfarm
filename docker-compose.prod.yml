@@ -1,11 +1,11 @@
 version: "3.7"
 
 services:
-    web:
+    farm_app:
         build: 
             context: ./farm_app
             dockerfile: Dockerfile.prod
-        command: gunicorn --worker-class eventlet --bind 0.0.0.0 -w 2 farm_app:app
+        command: gunicorn --worker-class eventlet --bind 0.0.0.0 -w 1 farm_app:app
         volumes:
             - static_volume:/home/farm_app/app/static
         expose:
@@ -19,6 +19,6 @@ services:
         ports:
             - 1337:80
         depends_on: 
-            - web
+            - farm_app
 volumes:
     static_volume:
