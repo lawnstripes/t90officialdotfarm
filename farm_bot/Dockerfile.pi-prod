@@ -1,0 +1,36 @@
+FROM arm32v7/python:3.7-alpine as builder
+
+WORKDIR /usr/src/farm_app
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+RUN apk update \
+    && apk add gcc python3-dev musl-dev
+
+RUN pip install --upgrade pip
+RUN pip install flake8
+COPY . /usr/src/farm_bot
+RUN flake8 
+
+COPY ./requirements.txt .
+RUN pip wheel --wheel-dir /usr/src/farm_bot/wheels -r requirements.txt
+
+FROM arm32v7/python:3.7-alpine
+
+WORKDIR /usr/src/farm_bot
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+RUN apk update 
+#\
+#    && apk add gcc python3-dev musl-dev
+
+COPY --from=builder /usr/src/farm_bot/wheels /wheels
+COPY --from=builder /usr/src/farm_bot/requirements.txt .
+RUN pip install --upgrade pip
+RUN pip install /wheels/*
+
+COPY . /usr/src/farm_bot
+CMD ["python", "/usr/src/farm_bot/farm_bot.py"]

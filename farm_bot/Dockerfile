@@ -10,4 +10,4 @@ COPY ./requirements.txt /usr/src/farm_bot/requirements.txt
 RUN pip install -r requirements.txt
 
 COPY . /usr/src/farm_bot
-RUN python /usr/src/farm_bot.py
+CMD ["python", "/usr/src/farm_bot/farm_bot.py"]
