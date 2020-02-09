@@ -15,9 +15,10 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 jwt = JWTManager(app)
 if app.config['ENV'] != 'production':
-    socketio = SocketIO(app)
+    socketio = SocketIO(app, engineio_logger=app.debug)
 else:
     socketio = SocketIO(app,
+                        engineio_logger=app.debug,
                         cors_allowed_origins=app.config['ALLOWED_ORIGINS'])
 cli = FlaskGroup(app)
 application = app
