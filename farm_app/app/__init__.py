@@ -14,7 +14,11 @@ cors = CORS(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 jwt = JWTManager(app)
-socketio = SocketIO(app)
+if app.config['ENV'] != 'production':
+    socketio = SocketIO(app)
+else:
+    socketio = SocketIO(app,
+                        cors_allowed_origins=app.config['ALLOWED_ORIGINS'])
 cli = FlaskGroup(app)
 application = app
 
