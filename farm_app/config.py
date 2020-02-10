@@ -12,4 +12,5 @@ class Config(object):
         "FARM_BOT"
     FARM_BOT_PW = os.environ.get("FARM_BOT_PW") or \
         "FARM-BOTS-TOP-SECRET-CODE"
-    ALLOWED_ORIGINS = ['t90official.farm', 'elasticbeanstalk.com']
+    ALLOWED_ORIGINS = os.environ.get("ALLOWED_ORIGINS") or \
+        "https://t90official.farm"
