@@ -24,8 +24,6 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 RUN apk update 
-#\
-#    && apk add gcc python3-dev musl-dev
 
 COPY --from=builder /usr/src/farm_bot/wheels /wheels
 COPY --from=builder /usr/src/farm_bot/requirements.txt .
